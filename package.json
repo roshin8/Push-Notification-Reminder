@@ -1,7 +1,7 @@
 {
-  "name": "web-push-book-demo-server",
+  "name": "push-notification-reminder",
   "version": "1.0.0",
-  "description": "A basic demonstration of a web server that handles push notifications.",
+  "description": "A simple reminder that makes use of push notification.",
   "main": "index.js",
   "engines": {
     "node": ">=6.9.5"
@@ -10,14 +10,14 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Matt Gaunt",
+  "author": "Roshin Varghese",
   "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "form-data": "^2.2.0",
     "mustache": "^2.2.1",
     "nedb": "^1.8.0",
-    "node-celery": "^0.2.8",
     "web-push": "^3.0.0"
   }
 }

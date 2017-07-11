@@ -23,7 +23,7 @@ const vapidKeys = {
 /**** END vapid-keys ****/
 
 webpush.setVapidDetails(
-  'mailto:web-push-book@gauntface.com',
+  'mailto:theroshin@gmail.com',
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );
@@ -40,7 +40,6 @@ function saveSubscriptionToDatabase(subscription, ip) {
     var doc = {
       "endpoint": subscription.endpoint,
       "keys": subscription.keys,
-      "time": 5,
       "ip": ip
     }
     db.insert(doc, function(err, newDoc) {
@@ -192,7 +191,14 @@ app.post('/api/trigger-push-msg/', function (req, res) {
      req.socket.remoteAddress ||
      req.connection.socket.remoteAddress;
 
-  const dataToSend = JSON.stringify(req.body);
+  const payload = req.body
+  const userTime = parseInt(payload['time'])
+  delete payload['time']
+
+  var dataToSend = payload['msg']
+  if (dataToSend == null){
+    dataToSend = JSON.stringify(payload);
+  }
 
   /**** START trig-push-send-push ****/
   return getSubscriptionsFromDatabase()
@@ -202,7 +208,8 @@ app.post('/api/trigger-push-msg/', function (req, res) {
     for (let i = 0; i < subscriptions.length; i++) {
       const subscription = subscriptions[i];
       promiseChain = promiseChain.then(() => {
-        var textSched =later.parse.recur().every(subscription.time).second();//later.parse.text('every 5 sec');
+
+        var textSched =later.parse.recur().every(userTime).second();//later.parse.text('every 5 sec');
         if (ip === subscription.ip){
           var timer = later.setInterval(function() { triggerPushMsg(subscription, dataToSend); }, textSched);
           return timer
@@ -233,7 +240,7 @@ app.post('/api/trigger-push-msg/', function (req, res) {
   /**** END trig-push-return-response ****/
 });
 
-const port = process.env.PORT || 9012;
+const port = process.env.PORT || 3000;
 
 const server = app.listen(port, function () {
   console.log('Running on http://localhost:' + port);

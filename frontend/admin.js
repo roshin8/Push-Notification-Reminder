@@ -1,3 +1,6 @@
+// const FormData = require('form-data');
+// const form = new FormData();
+
 function enableSendingPushes() {
   const pushContent = document.querySelector('.js-push-content');
   const triggerPushBtn = document.querySelector('.js-trigger-push-msg');
@@ -6,8 +9,20 @@ function enableSendingPushes() {
 
   triggerPushBtn.addEventListener('click', () => {
     triggerPushBtn.disabled = true;
+    // Get Time
+    const idElement = document.getElementById("js-time-element");
+    const timeElement = idElement.options[idElement.selectedIndex].value;
 
-    const payload = pushContent.value;
+    var payload = {};
+    try {
+      payload = JSON.parse(pushContent.value);
+    } catch (err) {
+      payload['msg'] = pushContent.value
+    }
+    payload['time'] = timeElement
+    payload = JSON.stringify(payload)
+
+
     const headers = {};
     try {
       JSON.parse(payload);
@@ -16,16 +31,17 @@ function enableSendingPushes() {
       headers['Content-Type'] = 'text/plain';
     }
 
+
+    // form.append('a', 1);
     fetch('/api/trigger-push-msg/', {
-      method: 'post',
+      method: 'POST',
       headers: headers,
-      body: pushContent.value
+      body: payload //pushContent.value
     })
     .then((response) => {
       if (!response.ok) {
         throw new Error('Invalid result from server.');
       }
-
       return response.json();
     })
     .then((response) => {
