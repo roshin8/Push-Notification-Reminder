@@ -193,7 +193,9 @@ app.post('/api/trigger-push-msg/', function (req, res) {
 
   const payload = req.body
   const userTime = parseInt(payload['time'])
+  const userTimeType = payload['timeType']
   delete payload['time']
+  delete payload['timeType']
 
   var dataToSend = payload['msg']
   if (dataToSend == null){
@@ -208,8 +210,8 @@ app.post('/api/trigger-push-msg/', function (req, res) {
     for (let i = 0; i < subscriptions.length; i++) {
       const subscription = subscriptions[i];
       promiseChain = promiseChain.then(() => {
-
-        var textSched =later.parse.recur().every(userTime).second();//later.parse.text('every 5 sec');
+        //console.log('every ' + userTime + ' ' + userTimeType);
+        var textSched = later.parse.text('every ' + userTime + ' ' + userTimeType);//later.parse.recur().every(userTime).eval(userTimeType + '()');//later.parse.text('every ' + userTime + ' ' + userTimeType); //
         if (ip === subscription.ip){
           var timer = later.setInterval(function() { triggerPushMsg(subscription, dataToSend); }, textSched);
           return timer

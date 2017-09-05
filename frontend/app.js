@@ -139,6 +139,8 @@ function subscribeUserToPush() {
   })
   .then(function(pushSubscription) {
     console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
+    // Reload the page so that getSubscriptionsFromDatabase() is called
+    window.location.reload()
     return pushSubscription;
   });
 }

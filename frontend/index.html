@@ -15,7 +15,7 @@
   <link href="styles/demo.css" rel="stylesheet" type="text/css">
 
   <!-- Google Fonts -->
-  <!--<link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700|Open+Sans|Inconsolata" rel="stylesheet">-->
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700|Open+Sans|Inconsolata" rel="stylesheet">
 </head>
 
 <body>
@@ -35,38 +35,47 @@
 
 
     <h2>Send Push Message</h2>
-
     <!--Clicking "Trigger Push Message" will make
       an API request to "/api/trigger-push-msg" (i.e. an API call to our
       node backend) and that will trigger a push message.-->
-
     <div class="push-data">
       <textarea rows="10" class="js-push-content push-content-text" disabled>{
         "notification": {
-          "title": "Example Title",
+          "title": "Reminder:",
           "body": "This will be the body text for the notification.",
           "icon": "/images/icon-512x512.png"
         }
-}</textarea>
+}
+      </textarea>
 
       <select id="js-time-element" name="item">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
+        <script lang="javascript">
+            for(var i=1; i<=60; i++){
+                var select = document.getElementById("js-time-element");
+                var option = document.createElement("OPTION");
+                select.options.add(option);
+                option.text = i;
+                option.value = i;
+            }
+        </script>
+      </select>
+
+      <select id="js-time-type" name="item">
+        <option value="hours">Hour(s)</option>
+        <option value="minutes">Minute(s)</option>
+        <option value="seconds">Second(s)</option>
       </select>
 
       <button class="js-trigger-push-msg" disabled>Trigger Push Message</button>
     </div>
 
     <h2>Subscriber List</h2>
-
     <table>
       <thead>
         <th>Database ID</th>
         <th>Endpoint</th>
       </thead>
       <tbody class="js-subscriber-table-body">
-
       </tbody>
     </table>
 

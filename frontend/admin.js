@@ -11,7 +11,10 @@ function enableSendingPushes() {
     triggerPushBtn.disabled = true;
     // Get Time
     const idElement = document.getElementById("js-time-element");
-    const timeElement = idElement.options[idElement.selectedIndex].value;
+    const timeElementValue = idElement.options[idElement.selectedIndex].value;
+
+    const idTimeElement = document.getElementById("js-time-type");
+    const timeElementType = idTimeElement.options[idTimeElement.selectedIndex].value;
 
     var payload = {};
     try {
@@ -19,7 +22,8 @@ function enableSendingPushes() {
     } catch (err) {
       payload['msg'] = pushContent.value
     }
-    payload['time'] = timeElement
+    payload['time'] = timeElementValue
+    payload['timeType'] = timeElementType
     payload = JSON.stringify(payload)
 
 
